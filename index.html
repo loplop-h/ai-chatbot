@@ -191,7 +191,31 @@
       display:flex;align-items:center;justify-content:center;
       transition:background 0.5s ease, box-shadow 0.5s ease;
     }
-    .orb-ic{font-size:36px;user-select:none;transition:all 0.3s;}
+    /* Orb inner content */
+    .orb-idle{display:flex;align-items:center;justify-content:center;opacity:0.85;transition:opacity 0.3s;}
+    .orb-idle svg{width:38px;height:38px;stroke:white;filter:drop-shadow(0 0 8px rgba(255,255,255,0.3));}
+    .orb-wave{display:none;align-items:center;gap:5px;height:44px;}
+    .wbar{
+      width:4px;border-radius:4px;
+      background:rgba(255,255,255,0.9);
+      animation:wAnim 1s ease-in-out infinite;
+      transform-origin:bottom;
+    }
+    .wbar:nth-child(1){height:10px;animation-delay:0s;}
+    .wbar:nth-child(2){height:22px;animation-delay:0.12s;}
+    .wbar:nth-child(3){height:36px;animation-delay:0.24s;}
+    .wbar:nth-child(4){height:22px;animation-delay:0.36s;}
+    .wbar:nth-child(5){height:10px;animation-delay:0.48s;}
+    @keyframes wAnim{
+      0%,100%{transform:scaleY(0.4);opacity:0.5;}
+      50%{transform:scaleY(1);opacity:1;}
+    }
+    /* Mode button icons */
+    .mode-btn svg{width:22px;height:22px;stroke:currentColor;flex-shrink:0;}
+    /* Header button icons */
+    .sw-btn svg,.c-btn svg{width:14px;height:14px;stroke:currentColor;flex-shrink:0;}
+    /* Send button */
+    .sbtn svg{width:18px;height:18px;fill:white;}
 
     @keyframes breathe{
       0%,100%{transform:scale(1);}
@@ -410,8 +434,14 @@
   <h1 class="i-name">Max Ernst<br><em>Huisman</em></h1>
   <p class="i-sub">OTIC Engineer · AI Builder · La Salle Barcelona</p>
   <div class="i-btns">
-    <button class="mode-btn" onclick="goVoice()"><span class="mi">🎤</span> Habla conmigo</button>
-    <button class="mode-btn" onclick="goChat()"><span class="mi">💬</span> Escríbeme</button>
+    <button class="mode-btn" onclick="goVoice()">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="13" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><line x1="12" y1="17" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></svg>
+      Habla conmigo
+    </button>
+    <button class="mode-btn" onclick="goChat()">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      Escríbeme
+    </button>
   </div>
 </div>
 
@@ -426,8 +456,14 @@
       </div>
     </div>
     <div style="display:flex;gap:8px;">
-      <button class="sw-btn" onclick="goChat()">💬 Switch to text</button>
-      <button class="sw-btn" onclick="endAll()" style="color:#ef4444;border-color:rgba(239,68,68,0.2);">✕ Finalizar</button>
+      <button class="sw-btn" onclick="goChat()">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Texto
+      </button>
+      <button class="sw-btn" onclick="endAll()" style="color:#ef4444;border-color:rgba(239,68,68,0.2);">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        Salir
+      </button>
     </div>
   </div>
 
@@ -437,7 +473,13 @@
       <div class="ring" id="r2"></div>
       <div class="ring" id="r3"></div>
       <div class="orb" id="orb">
-        <span class="orb-ic" id="oric">🎤</span>
+        <div class="orb-idle" id="orbIdle">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="13" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><line x1="12" y1="17" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></svg>
+        </div>
+        <div class="orb-wave" id="orbWave">
+          <div class="wbar"></div><div class="wbar"></div><div class="wbar"></div>
+          <div class="wbar"></div><div class="wbar"></div>
+        </div>
       </div>
     </div>
 
@@ -458,9 +500,18 @@
       <div class="c-sub"><span class="online"></span> AI · OTIC Engineer @ La Salle Barcelona</div>
     </div>
     <div class="c-actions">
-      <button class="c-btn" onclick="goVoice()">🎤 Voice</button>
-      <a class="c-btn" href="https://linkedin.com/in/maxernst-huisman" target="_blank">LinkedIn</a>
-      <button class="c-btn" onclick="endAll()" style="color:#ef4444;border-color:rgba(239,68,68,0.15);">✕ Finalizar</button>
+      <button class="c-btn" onclick="goVoice()">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="13" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><line x1="12" y1="17" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></svg>
+        Voz
+      </button>
+      <a class="c-btn" href="https://linkedin.com/in/maxernst-huisman" target="_blank">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
+      <button class="c-btn" onclick="endAll()" style="color:#ef4444;border-color:rgba(239,68,68,0.15);">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        Salir
+      </button>
     </div>
   </div>
 
@@ -602,20 +653,26 @@ function stopListen() {
 
 function orbState(s) {
   const o = document.getElementById('orb');
-  const ic = document.getElementById('oric');
+  const idle = document.getElementById('orbIdle');
+  const wave = document.getElementById('orbWave');
   const rings = [document.getElementById('r1'), document.getElementById('r2'), document.getElementById('r3')];
 
   o.className = 'orb';
   rings.forEach(r => r.className = 'ring');
 
   if (s === 'on') {
-    o.classList.add('on'); ic.textContent = '🎙️';
+    o.classList.add('on');
+    idle.style.display = 'none';
+    wave.style.display = 'flex';
     rings.forEach(r => r.classList.add('on'));
   } else if (s === 'talk') {
-    o.classList.add('talk'); ic.textContent = '💬';
+    o.classList.add('talk');
+    idle.style.display = 'none';
+    wave.style.display = 'flex';
     rings.forEach(r => r.classList.add('talk'));
   } else {
-    ic.textContent = '🎤';
+    idle.style.display = 'flex';
+    wave.style.display = 'none';
   }
 }
 
