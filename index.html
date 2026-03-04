@@ -766,7 +766,11 @@ async function tts(text, cb) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text }),
     });
-    if (!res.ok) throw new Error('ElevenLabs failed');
+    if (!res.ok) {
+      const errBody = await res.text().catch(() => 'no body');
+      console.error('[TTS] ElevenLabs error', res.status, errBody);
+      throw new Error('ElevenLabs failed');
+    }
     const blob = await res.blob();
     const url = URL.createObjectURL(blob);
     const audio = new Audio(url);
