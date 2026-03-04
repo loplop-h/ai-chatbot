@@ -759,14 +759,32 @@ async function doVoice(text) {
   }
 }
 
-function tts(text, cb) {
+async function tts(text, cb) {
+  try {
+    const res = await fetch('/api/tts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text }),
+    });
+    if (!res.ok) throw new Error('ElevenLabs failed');
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const audio = new Audio(url);
+    audio.onended = () => { URL.revokeObjectURL(url); cb(); };
+    audio.onerror = () => { URL.revokeObjectURL(url); ttsFallback(text, cb); };
+    audio.play().catch(() => ttsFallback(text, cb));
+  } catch {
+    ttsFallback(text, cb);
+  }
+}
+
+function ttsFallback(text, cb) {
   if (!window.speechSynthesis) { cb(); return; }
   speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(text);
-  u.rate = 1.05; u.pitch = 1; u.volume = 1;
+  u.rate = 1.05; u.pitch = 1;
   const vs = speechSynthesis.getVoices();
-  const v = vs.find(x => x.lang.startsWith('es') && !x.name.includes('Google'))
-         || vs.find(x => x.lang.startsWith('en'));
+  const v = vs.find(x => x.lang.startsWith('es')) || vs.find(x => x.lang.startsWith('en'));
   if (v) u.voice = v;
   u.onend = cb; u.onerror = cb;
   speechSynthesis.speak(u);
