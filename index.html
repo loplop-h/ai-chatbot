@@ -425,7 +425,10 @@
         <div class="v-sub">AI · OTIC Engineer @ La Salle</div>
       </div>
     </div>
-    <button class="sw-btn" onclick="goChat()">💬 Switch to text</button>
+    <div style="display:flex;gap:8px;">
+      <button class="sw-btn" onclick="goChat()">💬 Switch to text</button>
+      <button class="sw-btn" onclick="endAll()" style="color:#ef4444;border-color:rgba(239,68,68,0.2);">✕ Finalizar</button>
+    </div>
   </div>
 
   <div class="v-center">
@@ -457,6 +460,7 @@
     <div class="c-actions">
       <button class="c-btn" onclick="goVoice()">🎤 Voice</button>
       <a class="c-btn" href="https://linkedin.com/in/maxernst-huisman" target="_blank">LinkedIn</a>
+      <button class="c-btn" onclick="endAll()" style="color:#ef4444;border-color:rgba(239,68,68,0.15);">✕ Finalizar</button>
     </div>
   </div>
 
@@ -513,6 +517,36 @@ function goChat() {
   if (window.speechSynthesis) speechSynthesis.cancel();
   stopListen();
   show('s-chat');
+}
+
+function endAll() {
+  if (window.speechSynthesis) speechSynthesis.cancel();
+  stopListen();
+  speaking = false;
+  // Clear histories
+  chatH.length = 0;
+  voiceH.length = 0;
+  // Reset chat UI
+  const cmsgs = document.getElementById('cmsgs');
+  cmsgs.innerHTML = `
+    <div class="welcome">
+      <div class="w-em">👋</div>
+      <div class="w-h">Talk to Max's AI</div>
+      <div class="w-p">Ask me anything — projects, skills, vision, what he's building next.</div>
+    </div>
+    <div class="chips" id="chips">
+      <button class="chip" onclick="chip(this)">Who is Max?</button>
+      <button class="chip" onclick="chip(this)">What's ARIA?</button>
+      <button class="chip" onclick="chip(this)">What's he building?</button>
+      <button class="chip" onclick="chip(this)">What's he looking for at MWC?</button>
+      <button class="chip" onclick="chip(this)">How to contact him?</button>
+      <button class="chip" onclick="chip(this)">His vision for AI?</button>
+    </div>`;
+  // Reset voice UI
+  orbState('idle');
+  setVStatus('Toca para hablar', 'Pregúntame cualquier cosa sobre Max');
+  // Back to intro
+  show('s-intro');
 }
 
 // Show intro on load
