@@ -1,6 +1,6 @@
 // ElevenLabs TTS proxy — keeps API key server-side
 // Voice: "Charlie" — young, natural, casual male. Works in Spanish + English.
-const VOICE_ID = 'RwzBDEn5f6FIgpAjH9YN';
+const VOICE_ID = 'UgBBYS2sOqTuMpoF3BR0';
 
 // Simple in-memory rate limiter: max 10 requests per IP per minute
 const ipLog = new Map();
