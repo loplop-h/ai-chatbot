@@ -6,73 +6,71 @@
   <title>Max Ernst Huisman — AI</title>
   <meta name="description" content="Talk to Max's AI — OTIC Engineer & AI Builder at La Salle Barcelona" />
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --bg: #0f172a;
-      --surface: #1e293b;
-      --border: #334155;
+      --bg: #0a0f1e;
+      --surface: #111827;
+      --surface2: #1a2235;
+      --border: #1f2d45;
       --blue: #3b82f6;
-      --blue-dark: #1d4ed8;
+      --blue2: #1d4ed8;
       --cyan: #06b6d4;
       --text: #e2e8f0;
       --muted: #94a3b8;
-      --subtle: #475569;
+      --subtle: #4b5563;
     }
 
-    html, body {
-      height: 100%;
-      height: 100dvh;
-    }
+    html { height: 100%; height: 100dvh; }
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       background: var(--bg);
       color: var(--text);
+      height: 100%;
+      height: 100dvh;
       display: flex;
       flex-direction: column;
       overflow: hidden;
     }
 
-    /* ─── HEADER ─── */
+    /* ── HEADER ── */
     .header {
-      padding: 14px 18px;
-      background: var(--bg);
+      padding: 12px 16px;
+      background: rgba(10, 15, 30, 0.95);
+      backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
-      flex-shrink: 0;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 11px;
+      flex-shrink: 0;
     }
 
     .avatar {
-      width: 46px;
-      height: 46px;
+      width: 42px;
+      height: 42px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--blue), var(--cyan));
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 800;
-      font-size: 14px;
+      font-size: 13px;
       color: white;
       flex-shrink: 0;
-      letter-spacing: -0.5px;
+      box-shadow: 0 0 16px rgba(59,130,246,0.35);
     }
 
     .header-info { flex: 1; min-width: 0; }
 
     .header-name {
-      font-size: 15px;
+      font-size: 14.5px;
       font-weight: 700;
       color: white;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
 
     .header-sub {
-      font-size: 11px;
+      font-size: 10.5px;
       color: #60a5fa;
       margin-top: 2px;
       display: flex;
@@ -80,96 +78,80 @@
       gap: 5px;
     }
 
-    .online-dot {
-      width: 7px;
-      height: 7px;
+    .dot-online {
+      width: 6px;
+      height: 6px;
       background: #22c55e;
       border-radius: 50%;
+      box-shadow: 0 0 6px #22c55e;
       flex-shrink: 0;
     }
 
-    .header-links {
-      display: flex;
-      gap: 8px;
-      flex-shrink: 0;
-    }
+    .header-links { display: flex; gap: 6px; flex-shrink: 0; }
 
-    .header-link {
-      font-size: 11px;
-      color: var(--subtle);
+    .hlink {
+      font-size: 10.5px;
+      color: var(--muted);
       text-decoration: none;
-      padding: 4px 8px;
+      padding: 4px 9px;
       border: 1px solid var(--border);
       border-radius: 6px;
       transition: all 0.15s;
       white-space: nowrap;
     }
 
-    .header-link:hover {
-      color: #60a5fa;
-      border-color: var(--blue);
-    }
+    .hlink:hover { color: #60a5fa; border-color: var(--blue); background: rgba(59,130,246,0.06); }
 
-    /* ─── CHAT AREA ─── */
-    .chat-area {
+    /* ── CHAT ── */
+    .chat {
       flex: 1;
       overflow-y: auto;
-      padding: 16px;
+      padding: 18px 14px;
       display: flex;
       flex-direction: column;
       gap: 14px;
-      scroll-behavior: smooth;
     }
 
-    .chat-area::-webkit-scrollbar { width: 3px; }
-    .chat-area::-webkit-scrollbar-thumb { background: #1e3a5f; border-radius: 2px; }
+    .chat::-webkit-scrollbar { width: 3px; }
+    .chat::-webkit-scrollbar-thumb { background: #1e3a5f; border-radius: 2px; }
 
     /* Intro */
     .intro {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 18px;
+      background: linear-gradient(135deg, rgba(59,130,246,0.08), rgba(6,182,212,0.05));
+      border: 1px solid rgba(59,130,246,0.18);
+      border-radius: 16px;
+      padding: 20px 18px;
       text-align: center;
     }
 
-    .intro-emoji { font-size: 28px; margin-bottom: 8px; }
+    .intro-emoji { font-size: 30px; margin-bottom: 10px; }
+    .intro h2 { font-size: 16px; font-weight: 700; color: white; margin-bottom: 6px; }
+    .intro p { font-size: 12.5px; color: var(--muted); line-height: 1.65; }
 
-    .intro h2 {
-      font-size: 16px;
-      font-weight: 700;
-      color: white;
-      margin-bottom: 6px;
-    }
-
-    .intro p {
-      font-size: 12.5px;
-      color: var(--muted);
-      line-height: 1.6;
-    }
-
-    /* Suggestion chips */
-    .suggestions {
+    /* Chips */
+    .chips {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 7px;
     }
 
     .chip {
-      background: var(--surface);
+      background: var(--surface2);
       border: 1px solid var(--border);
       color: #93c5fd;
       padding: 7px 13px;
       border-radius: 20px;
-      font-size: 12.5px;
+      font-size: 12px;
       cursor: pointer;
       transition: all 0.15s;
       font-family: inherit;
+      line-height: 1;
     }
 
     .chip:hover {
-      background: #1e3a5f;
-      border-color: var(--blue);
+      background: rgba(59,130,246,0.12);
+      border-color: rgba(59,130,246,0.4);
+      color: #bfdbfe;
     }
 
     /* Messages */
@@ -177,23 +159,25 @@
       display: flex;
       gap: 8px;
       align-items: flex-end;
-      max-width: 88%;
+      animation: fadeUp 0.2s ease;
     }
 
-    .msg-row.user {
-      align-self: flex-end;
-      flex-direction: row-reverse;
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
+
+    .msg-row.user { align-self: flex-end; max-width: 80%; }
 
     .msg-avatar {
-      width: 28px;
-      height: 28px;
+      width: 26px;
+      height: 26px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--blue), var(--cyan));
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 10px;
+      font-size: 9px;
       font-weight: 700;
       color: white;
       flex-shrink: 0;
@@ -204,7 +188,11 @@
       border-radius: 18px;
       font-size: 13.5px;
       line-height: 1.6;
+      max-width: 100%;
+      word-break: break-word;
     }
+
+    .msg-row.ai { max-width: 86%; }
 
     .msg-row.ai .bubble {
       background: var(--surface);
@@ -214,16 +202,32 @@
     }
 
     .msg-row.user .bubble {
-      background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+      background: linear-gradient(135deg, var(--blue), var(--blue2));
       color: white;
       border-bottom-right-radius: 5px;
+      box-shadow: 0 2px 12px rgba(59,130,246,0.25);
     }
 
-    /* Typing */
+    /* Cursor blink */
+    .cursor {
+      display: inline-block;
+      width: 2px;
+      height: 14px;
+      background: #60a5fa;
+      margin-left: 2px;
+      vertical-align: middle;
+      border-radius: 1px;
+      animation: blink 0.7s infinite;
+    }
+
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+    /* Typing dots */
     .typing-row {
       display: flex;
       gap: 8px;
       align-items: flex-end;
+      animation: fadeUp 0.2s ease;
     }
 
     .typing-bubble {
@@ -237,26 +241,28 @@
       align-items: center;
     }
 
-    .dot {
-      width: 7px;
-      height: 7px;
+    .tdot {
+      width: 6px;
+      height: 6px;
       background: #60a5fa;
       border-radius: 50%;
-      animation: bounce 1.3s infinite;
+      animation: tdot 1.3s infinite;
+      opacity: 0.5;
     }
 
-    .dot:nth-child(2) { animation-delay: 0.2s; }
-    .dot:nth-child(3) { animation-delay: 0.4s; }
+    .tdot:nth-child(2) { animation-delay: 0.2s; }
+    .tdot:nth-child(3) { animation-delay: 0.4s; }
 
-    @keyframes bounce {
-      0%, 60%, 100% { transform: translateY(0); opacity: 0.6; }
-      30% { transform: translateY(-6px); opacity: 1; }
+    @keyframes tdot {
+      0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+      30% { transform: translateY(-5px); opacity: 1; }
     }
 
-    /* ─── INPUT ─── */
+    /* ── INPUT ── */
     .input-area {
-      padding: 10px 14px 14px;
-      background: var(--bg);
+      padding: 10px 14px 12px;
+      background: rgba(10,15,30,0.95);
+      backdrop-filter: blur(12px);
       border-top: 1px solid var(--border);
       flex-shrink: 0;
     }
@@ -281,17 +287,20 @@
       line-height: 1.45;
       max-height: 110px;
       min-height: 44px;
-      transition: border-color 0.15s;
-      overflow-y: auto;
+      transition: border-color 0.15s, box-shadow 0.15s;
     }
 
     textarea::placeholder { color: var(--subtle); }
-    textarea:focus { border-color: var(--blue); }
+
+    textarea:focus {
+      border-color: rgba(59,130,246,0.5);
+      box-shadow: 0 0 0 3px rgba(59,130,246,0.08);
+    }
 
     .send-btn {
       width: 44px;
       height: 44px;
-      background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+      background: linear-gradient(135deg, var(--blue), var(--blue2));
       border: none;
       border-radius: 50%;
       cursor: pointer;
@@ -299,24 +308,24 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      transition: opacity 0.15s, transform 0.1s;
+      transition: opacity 0.15s, transform 0.1s, box-shadow 0.15s;
+      box-shadow: 0 2px 12px rgba(59,130,246,0.3);
     }
 
-    .send-btn:hover { opacity: 0.85; }
-    .send-btn:active { transform: scale(0.93); }
-    .send-btn:disabled { opacity: 0.35; cursor: not-allowed; }
-
-    .send-btn svg { width: 19px; height: 19px; fill: white; }
+    .send-btn:hover { opacity: 0.88; box-shadow: 0 4px 18px rgba(59,130,246,0.4); }
+    .send-btn:active { transform: scale(0.92); }
+    .send-btn:disabled { opacity: 0.3; cursor: not-allowed; box-shadow: none; }
+    .send-btn svg { width: 18px; height: 18px; fill: white; }
 
     .footer {
       display: flex;
       justify-content: center;
-      gap: 20px;
+      gap: 18px;
       padding-top: 8px;
     }
 
     .footer a {
-      font-size: 11px;
+      font-size: 10.5px;
       color: var(--subtle);
       text-decoration: none;
       transition: color 0.15s;
@@ -327,41 +336,40 @@
 </head>
 <body>
 
-<!-- HEADER -->
 <header class="header">
   <div class="avatar">MH</div>
   <div class="header-info">
     <div class="header-name">Max Ernst Huisman</div>
     <div class="header-sub">
-      <span class="online-dot"></span>
-      AI Assistant · OTIC Engineer @ La Salle
+      <span class="dot-online"></span>
+      AI · OTIC Engineer @ La Salle Barcelona
     </div>
   </div>
   <div class="header-links">
-    <a class="header-link" href="https://linkedin.com/in/maxernst-huisman" target="_blank">LinkedIn</a>
-    <a class="header-link" href="https://github.com/loplop-h" target="_blank">GitHub</a>
+    <a class="hlink" href="https://linkedin.com/in/maxernst-huisman" target="_blank">LinkedIn</a>
+    <a class="hlink" href="https://github.com/loplop-h" target="_blank">GitHub</a>
   </div>
 </header>
 
-<!-- CHAT -->
-<div class="chat-area" id="chatArea">
+<div class="chat" id="chat">
 
   <div class="intro">
     <div class="intro-emoji">👋</div>
     <h2>Talk to Max's AI</h2>
-    <p>Ask me anything — projects, skills, what he's looking for at MWC. I'm his AI, running 24/7.</p>
+    <p>I'm his AI — ask me anything about his work, projects, or what he's building next.</p>
   </div>
 
-  <div class="suggestions" id="suggestions">
-    <button class="chip" onclick="useSuggestion(this)">Who is Max?</button>
-    <button class="chip" onclick="useSuggestion(this)">What projects does he have?</button>
-    <button class="chip" onclick="useSuggestion(this)">What's he looking for at MWC?</button>
-    <button class="chip" onclick="useSuggestion(this)">How can I contact him?</button>
+  <div class="chips" id="chips">
+    <button class="chip" onclick="useChip(this)">Who is Max?</button>
+    <button class="chip" onclick="useChip(this)">What's ARIA?</button>
+    <button class="chip" onclick="useChip(this)">What's he building?</button>
+    <button class="chip" onclick="useChip(this)">What's he looking for at MWC?</button>
+    <button class="chip" onclick="useChip(this)">How to contact him?</button>
+    <button class="chip" onclick="useChip(this)">What's his vision for AI?</button>
   </div>
 
 </div>
 
-<!-- INPUT -->
 <div class="input-area">
   <div class="input-row">
     <textarea
@@ -371,7 +379,7 @@
       onkeydown="handleKey(event)"
       oninput="resize(this)"
     ></textarea>
-    <button class="send-btn" id="sendBtn" onclick="send()">
+    <button class="send-btn" id="sendBtn" onclick="send()" title="Send">
       <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
     </button>
   </div>
@@ -383,6 +391,7 @@
 
 <script>
   const history = [];
+  const chat = document.getElementById('chat');
 
   function resize(el) {
     el.style.height = 'auto';
@@ -390,14 +399,12 @@
   }
 
   function handleKey(e) {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      send();
-    }
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
   }
 
-  function useSuggestion(btn) {
-    document.getElementById('suggestions').remove();
+  function useChip(btn) {
+    const chips = document.getElementById('chips');
+    if (chips) chips.remove();
     submit(btn.textContent);
   }
 
@@ -407,8 +414,8 @@
     if (!text) return;
     input.value = '';
     input.style.height = 'auto';
-    const sugg = document.getElementById('suggestions');
-    if (sugg) sugg.remove();
+    const chips = document.getElementById('chips');
+    if (chips) chips.remove();
     submit(text);
   }
 
@@ -418,40 +425,40 @@
     fetchAI();
   }
 
+  function escape(text) {
+    return text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/\n/g, '<br>');
+  }
+
   function addMsg(role, text) {
-    const area = document.getElementById('chatArea');
     const row = document.createElement('div');
     row.className = `msg-row ${role}`;
-
-    const safeText = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
-
     if (role === 'ai') {
       row.innerHTML = `
         <div class="msg-avatar">MH</div>
-        <div class="bubble">${safeText}</div>`;
+        <div class="bubble">${escape(text)}</div>`;
     } else {
-      row.innerHTML = `<div class="bubble">${safeText}</div>`;
+      row.innerHTML = `<div class="bubble">${escape(text)}</div>`;
     }
-
-    area.appendChild(row);
-    area.scrollTop = area.scrollHeight;
+    chat.appendChild(row);
+    chat.scrollTop = chat.scrollHeight;
     return row;
   }
 
   function showTyping() {
-    const area = document.getElementById('chatArea');
     const row = document.createElement('div');
     row.className = 'typing-row';
     row.id = 'typing';
     row.innerHTML = `
       <div class="msg-avatar">MH</div>
       <div class="typing-bubble">
-        <span class="dot"></span>
-        <span class="dot"></span>
-        <span class="dot"></span>
+        <span class="tdot"></span><span class="tdot"></span><span class="tdot"></span>
       </div>`;
-    area.appendChild(row);
-    area.scrollTop = area.scrollHeight;
+    chat.appendChild(row);
+    chat.scrollTop = chat.scrollHeight;
   }
 
   function hideTyping() {
@@ -472,14 +479,63 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ messages: history }),
       });
-      const data = await res.json();
-      const reply = data.content || 'Something went wrong. Contact Max at maxhuismangtrz@gmail.com';
+
       hideTyping();
-      addMsg('ai', reply);
-      history.push({ role: 'assistant', content: reply });
+
+      // Create message bubble for streaming
+      const row = document.createElement('div');
+      row.className = 'msg-row ai';
+      row.style.animation = 'fadeUp 0.2s ease';
+      const bubble = document.createElement('div');
+      bubble.className = 'bubble';
+      const avatarEl = document.createElement('div');
+      avatarEl.className = 'msg-avatar';
+      avatarEl.textContent = 'MH';
+      row.appendChild(avatarEl);
+      row.appendChild(bubble);
+      chat.appendChild(row);
+
+      const cursor = document.createElement('span');
+      cursor.className = 'cursor';
+      bubble.appendChild(cursor);
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let fullText = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value, { stream: true });
+        const lines = chunk.split('\n');
+
+        for (const line of lines) {
+          if (!line.startsWith('data: ')) continue;
+          const data = line.slice(6).trim();
+          if (data === '[DONE]') continue;
+          try {
+            const { t } = JSON.parse(data);
+            if (t) {
+              fullText += t;
+              bubble.innerHTML = escape(fullText);
+              bubble.appendChild(cursor);
+              chat.scrollTop = chat.scrollHeight;
+            }
+          } catch {}
+        }
+      }
+
+      // Remove cursor when done
+      cursor.remove();
+      bubble.innerHTML = escape(fullText);
+      chat.scrollTop = chat.scrollHeight;
+      history.push({ role: 'assistant', content: fullText });
+
     } catch {
       hideTyping();
-      addMsg('ai', 'Connection error. You can reach Max directly at maxhuismangtrz@gmail.com or +34 666 459 920.');
+      const row = addMsg('ai', 'Something went wrong. Reach Max at maxhuismangtrz@gmail.com or +34 666 459 920');
+      history.push({ role: 'assistant', content: row.querySelector('.bubble').textContent });
     } finally {
       btn.disabled = false;
       input.disabled = false;
