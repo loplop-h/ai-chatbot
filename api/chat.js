@@ -25,7 +25,7 @@ Max is direct, confident, and genuinely obsessed with AI. He's a builder — not
 Looking for: internship at cutting-edge AI company, project collaborators, investors in autonomous agents, and people who build real things.
 
 ## CONTACT
-Email: maxhuismangtrz@gmail.com | Phone: +34 666 459 920
+Email: maxernstprojects@gmail.com | Phone: +34 666 459 920
 LinkedIn: linkedin.com/in/maxernst-huisman | GitHub: github.com/loplop-h
 
 ## IMPORTANT

@@ -485,7 +485,7 @@
       </button>
     </div>
     <div class="cfooter">
-      <a href="mailto:maxhuismangtrz@gmail.com">maxhuismangtrz@gmail.com</a>
+      <a href="mailto:maxernstprojects@gmail.com">maxernstprojects@gmail.com</a>
       <a href="tel:+34666459920">+34 666 459 920</a>
     </div>
   </div>
@@ -495,15 +495,13 @@
 // ── HISTORY ──
 const chatH = [], voiceH = [];
 let listening = false, speaking = false;
+let activeScreen = 'intro';
 
 // ── SCREENS ──
 function show(id) {
-  document.querySelectorAll('.screen').forEach(s => {
-    s.classList.remove('active');
-  });
-  const el = document.getElementById(id);
-  // small delay so transition fires
-  requestAnimationFrame(() => el.classList.add('active'));
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  activeScreen = id.replace('s-', '');
+  requestAnimationFrame(() => document.getElementById(id).classList.add('active'));
 }
 
 function goVoice() {
@@ -597,7 +595,10 @@ async function doVoice(text) {
   setVStatus('Pensando...', text);
   orbState('talk');
   speaking = true;
+
+  // Keep last 3 exchanges (6 messages) for memory
   voiceH.push({ role: 'user', content: text });
+  if (voiceH.length > 6) voiceH.splice(0, voiceH.length - 6);
 
   try {
     const res = await fetch('/api/chat', {
@@ -626,10 +627,20 @@ async function doVoice(text) {
     }
 
     voiceH.push({ role: 'assistant', content: full });
+
     tts(full, () => {
       speaking = false;
-      orbState('idle');
-      setVStatus('Toca para hablar', '');
+      // Auto-continue conversation if still on voice screen
+      if (activeScreen === 'voice') {
+        orbState('idle');
+        setVStatus('Escuchando...', '');
+        setTimeout(() => {
+          if (activeScreen === 'voice' && !speaking) startListen();
+        }, 600);
+      } else {
+        orbState('idle');
+        setVStatus('Toca para hablar', '');
+      }
     });
   } catch {
     speaking = false;
@@ -761,7 +772,7 @@ async function fetchChat() {
     chatH.push({ role: 'assistant', content: full });
   } catch {
     hideTyping();
-    addMsg('ai', 'Something went wrong. Contact Max at maxhuismangtrz@gmail.com');
+    addMsg('ai', 'Something went wrong. Contact Max at maxernstprojects@gmail.com');
   } finally {
     btn.disabled = false; inp.disabled = false; inp.focus();
   }
