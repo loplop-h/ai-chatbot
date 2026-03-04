@@ -770,6 +770,7 @@ async function tts(text, cb) {
     const blob = await res.blob();
     const url = URL.createObjectURL(blob);
     const audio = new Audio(url);
+    audio.playbackRate = 1.2;
     audio.onended = () => { URL.revokeObjectURL(url); cb(); };
     audio.onerror = () => { URL.revokeObjectURL(url); ttsFallback(text, cb); };
     audio.play().catch(() => ttsFallback(text, cb));
